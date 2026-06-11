@@ -15,6 +15,12 @@ This project fine-tunes TinyLlama-1.1B using QLoRA (4-bit) to automatically:
 ## Setup
 ```bash
 pip install -r requirements.txt
-python data/synthetic/generate_bugs.py
-python model/fine_tune.py
+python data/synthetic/generate_bugs.py --count 2000
+python model/fine_tune.py --output_dir checkpoints/bug-localizer
+python model/evaluate.py --adapter_dir checkpoints/bug-localizer
+```
+
+## Inference
+```bash
+python model/inference.py --adapter_dir checkpoints/bug-localizer --code "def sum_list(arr):\n    total = 0\n    for i in range(len(arr)):\n        total += arr[i]\n    return total" --error "IndexError: list index out of range"
 ```
